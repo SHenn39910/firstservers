@@ -3,10 +3,24 @@
 const http = require('http');
 const host = 'localhost';
 const port = 8000;
+const fs = require('fs').promises;
+
+//new variable
+let indexFile;
 
 //what to return
 const requestListener= function(req, res){
-
+    fs.readFile(__dirname + '/index.html')
+        .then(contents => {
+            res.setHeader("Content-Type", "text/html");
+            res.writeHead(200);
+            res.end(indexFile);
+        })
+        .catch(err => {
+            res.writeHead(200);
+            res.end(err);
+            return;
+        });
 };
 
 //actual server with port
